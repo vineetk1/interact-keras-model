@@ -13,39 +13,37 @@ import pickle
 
 class Session:
     def __init__(self):
-        self._baseDir = pathlib.Path.home().joinpath('.interactKerasModel')
-        self._sessionDir = self._baseDir.joinpath('session')
-        self._sessionDir.mkdir(exist_ok=True, parents=True)
-        self._sessionFile = self._sessionDir.joinpath('settings')
+        _baseDir = pathlib.Path.home().joinpath('.interactKerasModel')
+        _sessionDir = _baseDir.joinpath('session')
+        _sessionDir.mkdir(exist_ok=True, parents=True)
+        self._sessionFile = _sessionDir.joinpath('settings')
         self._sessionFile.touch(exist_ok=True)
-        self._instanceList = []
-        self._settings = {}
         if readline:
             self._READLINE_FILE_SIZE = 1000
-            self._readlineFile = self._baseDir.joinpath('readlineFile')
+            self._readlineFile = _baseDir.joinpath('readlineFile')
             self._readlineFile.touch(exist_ok=True)
             readline.read_history_file('{}'.format(self._readlineFile))
 
-    def load(self, instanceList):
+    def settingsLoad(self, instanceList):
         self._instanceList = instanceList
         if self._sessionFile.stat().st_size:
             with self._sessionFile.open('rb') as rf:
                 self._settings = pickle.load(rf)
-                logger.debug('self._settings={}'.format(self._settings))
+                logger.debug('self._settings = {}'.format(self._settings))
             try:    
                 for instance in self._instanceList:
-                    instance.load(self._settings)
+                    instance.settingsLoad(self._settings)
             except:
                 print('Saved settings file is corrupted. Loading default settings instead')
-                self. _default()
+                self. _settingsDefault()
         else:
-            self._default()
+            self._settingsDefault()
 
-    def save(self):
+    def settingsSave(self):
         self._settings = {}
         for instance in self._instanceList:
-            instance.save(self._settings)
-        logger.debug('self._settings={}'.format(self._settings))
+            instance.settingsSave(self._settings)
+        logger.debug('self._settings = {}'.format(self._settings))
         with self._sessionFile.open('wb') as wf:
             pickle.dump(self._settings, wf)
 
@@ -54,32 +52,32 @@ class Session:
             readline.write_history_file('{}'.format(self._readlineFile))
         print('Session settings saved')
 
-    def _default(self): 
+    def _settingsDefault(self): 
         for instance in self._instanceList:
-            instance.default()
+            instance.settingsDefault()
 
-    def _state(self): 
+    def _settingsState(self): 
         for instance in self._instanceList:
-            instance.state()
+            instance.settingsState()
 
-    def execute(self, line):
-        logger.debug('line={}, shlex.split(line)={}'.format(line, shlex.split(line)))
-        self._sessionP = argparse.ArgumentParser(prog="session", 
+    def execute(self, _line):
+        logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
+        _sessionP = argparse.ArgumentParser(prog="session", 
             description='Information and operations on the session',
             epilog='Long options can be abbreviated if they are unambiguous in the commandline') 
-        self._sessionPGr = self._sessionP.add_mutually_exclusive_group()
-        self._sessionPGr.add_argument('--default', '-d', action='store_true', 
+        _sessionPGr = _sessionP.add_mutually_exclusive_group()
+        _sessionPGr.add_argument('--default', '-d', dest='_default', action='store_true', 
                 help='clear the session with the default values')
-        self._sessionPGr.add_argument('--state', '-s', action='store_true', 
+        _sessionPGr.add_argument('--state', '-s', dest='_state',  action='store_true', 
                 help='show the state/status of the session')
         try:
-            args = self._sessionP.parse_args(shlex.split(line))
+            args = _sessionP.parse_args(shlex.split(_line))
             logger.debug('{}'.format(args))
         except SystemExit:
             return
         except:
-            print("Unexpected error:", sys.exc_info()[0])
+            print("Unexpected error: {}".format(sys.exc_info()[0]))
             raise   
-        if args.default:    self._default()
-        elif args.state:    self._state()
-        else:               self._state()    
+        if args._default:   self._settingsDefault()
+        elif args._state:   self._settingsState()
+        else:               self._settingsState()    
