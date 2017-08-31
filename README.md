@@ -36,6 +36,6 @@ If the decision is positive, follow these steps to improve/add to the software:
 1. Add files (git add fileName1.py fileName2.py ....).
 1. Commit changes (git commit -m 'synopsis of the changes').
 1. Push to the branch (git push origin newBranch).
-1. Go to the repository page on github. Click on the "Pull Requests" button in the repo header.
+1. Go to the repository page on github. Click on the "Pull Requests" button in the repo header, and follow directions.
 ## License
 This software is available for free under the terms of the GPL-3.0+ Open Source license. 
