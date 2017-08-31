@@ -1,5 +1,5 @@
 # Interact with Keras Model
-This software is an interactive command-line program. It interacts with user-generated deep learning keras based models. A user does the following:
+This software is an interactive command-line program. It interacts with user-generated deep learning keras based models. The user does the following:
 1. Build a deep-learning model using Keras 
 1. Interact with the model using this interactive command-line program
 ## Table of contents
@@ -13,6 +13,7 @@ This software is an interactive command-line program. It interacts with user-gen
 <!-- vim-markdown-toc -->
 ## Requirements
 python >= 3.5, keras >= 2.0.2, numPy >= 1.12.1 
+
 Lower versions may work. Try at your own risk!
 ## Restrictions
 * Currently works with Keras Sequential Model
@@ -26,8 +27,10 @@ git clone https://github.com/vineetk1/interact-keras-model.git
 Open an Issue as follows:
 1. Go to the repository page on github. Click on "Issues" button in the repo header.
 1. Click on the "New Issue" button
-1. Provide sufficient information so a decision can be made promptly.
+1. Provide sufficient information so a decision, regarding the issue,  can be made promptly.
 1. Click on "Submit new issue" button
+
+
 If the decision is positive, follow these steps to make changes to the software:
 1. Fork this repository
 1. Create a new branch (git checkout -b newBranch)
