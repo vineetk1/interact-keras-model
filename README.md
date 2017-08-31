@@ -2,6 +2,7 @@
 Interactive command-line program to interact with user-generated deep learning keras based models.
 1. Build a deep-learning model using Keras 
 1. Interact with the model using this interactive command-line program
+
 #Table of contents
 <!-- vim-markdown-toc GFM -->
 * [Requirements](#requirements)
@@ -11,7 +12,6 @@ Interactive command-line program to interact with user-generated deep learning k
 * [License](#license)
 
 <!-- vim-markdown-toc -->
-
 # Requirements
 python >= 3.5, keras >= 2.0.2, numPy >= 1.12.1
 
