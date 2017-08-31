@@ -16,7 +16,7 @@ This software is an interactive command-line program. It interacts with user-gen
 <!-- vim-markdown-toc -->
 ## Requirements
 python >= 3.5, keras >= 2.0.2, numPy >= 1.12.1  
-Lower versions may work. Try at your own risk!
+Lower versions may work. 
 ## Restrictions
 * Currently works with Keras Sequential Model
 * Software development and testing is done on Linux OS
@@ -26,7 +26,7 @@ Clone this repository
 git clone https://github.com/vineetk1/interact-keras-model.git
 ```
 ## Usage
-### Getting started
+### 	Getting started
 Run the interactive program. Enter commands following the prompt ">>" sign.
 ```
 #Provide the path to the interact-keras-model directory and run interactKerasModel.py
@@ -43,7 +43,7 @@ EOF  exit  help  model  quit  session  shell
 >>
 ```
 
-### Help
+### 	Help
 
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
