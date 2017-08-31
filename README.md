@@ -7,6 +7,9 @@ This software is an interactive command-line program. It interacts with user-gen
 * [Requirements](#requirements)
 * [Restrictions](#restrictions)
 * [Installation](#installation)
+* [Usage](#usage)
+	* [Getting started](#getting-started)
+	* [Help](#help)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -22,6 +25,20 @@ Clone this repository
 ```
 git clone https://github.com/vineetk1/interact-keras-model.git
 ```
+## Usage
+### Getting started
+Run the program
+```
+#Provide the path to the interact-keras-model directory
+python3 ~/interact-keras-model/interactKerasModel.py
+Using TensorFlow backend.
+interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.
+Type "help" or "?" to list commands
+>>
+```
+Enter commands following the prompt ">>" sign.
+### Help
+
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
