@@ -1,6 +1,10 @@
+'''
+Vineet Kumar, Copyright (C) 2017, GPL-3.0+ open-source license.
+This program comes with ABSOLUTELY NO WARRANTY.
+'''
 import logging
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)           # DEBUG INFO WARN ERROR CRITICAL
+logger.setLevel(logging.INFO)           # DEBUG INFO WARN ERROR CRITICAL
 console = logging.StreamHandler()
 console.setLevel(logging.DEBUG)         # DEBUG INFO WARN ERROR CRITICAL
 formatter = logging.Formatter('%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s')
@@ -20,7 +24,7 @@ session.settingsLoad(instanceList)
 
 class InteractModel(cmd.Cmd):
     prompt = '>>'
-    intro = "interactKerasModel version 0.7,\tInteract with Keras based Model\nType \"help\" or \"?\" to list commands"
+    intro = "interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.\nType \"help\" or \"?\" to list commands"
 
     def do_session(self, line):
         session.execute(line)

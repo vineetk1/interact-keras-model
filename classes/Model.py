@@ -1,3 +1,7 @@
+'''
+Vineet Kumar, Copyright (C) 2017, GPL-3.0+ open-source license.
+This program comes with ABSOLUTELY NO WARRANTY.
+'''
 import logging
 logger = logging.getLogger()
 import pathlib
