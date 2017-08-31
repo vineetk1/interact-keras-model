@@ -34,6 +34,12 @@ python3 ~/interact-keras-model/interactKerasModel.py
 Using TensorFlow backend.
 interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.
 Type "help" or "?" to list commands
+
+>>help
+Documented commands (type help <topic>):
+========================================
+EOF  exit  help  model  quit  session  shell
+
 >>
 ```
 Enter commands following the prompt ">>" sign.
