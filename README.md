@@ -28,7 +28,6 @@ Open an Issue as follows:
 1. Click on the "New Issue" button
 1. Provide sufficient information so a decision, regarding the issue,  can be made promptly.
 1. Click on "Submit new issue" button   
-
 If the decision is positive, follow these steps to make changes to the software:
 1. Fork this repository
 1. Create a new branch (git checkout -b newBranch)
