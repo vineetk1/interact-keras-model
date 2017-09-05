@@ -75,13 +75,13 @@ class Session:
         _sessionPGr.add_argument('--state', '-s', dest='_state',  action='store_true', 
                 help='show the state/status of the session')
         try:
-            args = _sessionP.parse_args(shlex.split(_line))
-            logger.debug('{}'.format(args))
+            _args = _sessionP.parse_args(shlex.split(_line))
+            logger.debug('{}'.format(_args))
         except SystemExit:
             return
         except:
             print("Unexpected error: {}".format(sys.exc_info()[0]))
             raise   
-        if args._default:   self._settingsDefault()
-        elif args._state:   self._settingsState()
+        if _args._default:   self._settingsDefault()
+        elif _args._state:   self._settingsState()
         else:               self._settingsState()    

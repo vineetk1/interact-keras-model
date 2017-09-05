@@ -4,7 +4,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 '''
 import logging
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)           # DEBUG INFO WARN ERROR CRITICAL
+logger.setLevel(logging.DEBUG)           # DEBUG INFO WARN ERROR CRITICAL
 console = logging.StreamHandler()
 console.setLevel(logging.DEBUG)         # DEBUG INFO WARN ERROR CRITICAL
 formatter = logging.Formatter('%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s')
@@ -15,21 +15,30 @@ import cmd
 import os
 
 import classes.Session
+import classes.CommonModel
 import classes.Model
 
 session = classes.Session.Session()
+commonModel = classes.CommonModel.CommonModel()
 model = classes.Model.Model()
-instanceList = [model]
+instanceList = [commonModel, model]
 session.settingsLoad(instanceList)
+
+version = "0.7.0"                       # version = major-version.minor-version.patch-version
 
 class InteractModel(cmd.Cmd):
     prompt = '>>'
-    intro = "interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.\nType \"help\" or \"?\" to list commands"
+    intro = "interactKerasModel version {}, Copyright (C) 2017. GPL-3.0+ open-source license.\nType \"help\" or \"?\" to list commands".format(version)
 
     def do_session(self, line):
         session.execute(line)
     def help_session(self):
         session.execute('-h')
+
+    def do_load(self, line):
+        commonModel.execute(line)
+    def help_load(self):
+        commonModel.execute('-h')
 
     def do_model(self, line):
         model.execute(line)
