@@ -43,7 +43,7 @@ EOF  exit  help  model  quit  session  shell
 >>
 ```
 ### Help
-
+More to come...........
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
