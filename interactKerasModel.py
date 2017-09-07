@@ -17,11 +17,13 @@ import os
 import classes.Session
 import classes.CommonModel
 import classes.Model
+import classes.Layers
 
 session = classes.Session.Session()
 commonModel = classes.CommonModel.CommonModel()
 model = classes.Model.Model()
-instanceList = [commonModel, model]
+layers = classes.Layers.Layers()
+instanceList = [commonModel, model, layers]
 session.settingsLoad(instanceList)
 
 version = "0.7.0"                       # version = major-version.minor-version.patch-version
@@ -44,6 +46,11 @@ class InteractModel(cmd.Cmd):
         model.execute(line)
     def help_model(self):
         model.execute('-h')
+
+    def do_layers(self, line):
+        layers.execute(line)
+    def help_layers(self):
+        layers.execute('-h')
 
     def do_shell(self, s):
         os.system(s)

@@ -22,6 +22,7 @@ class Model(cm.CommonModel):
         pass
 
     def _modelInternal(self, _args):
+        print('got here')
         if cm.CommonModel.Kmodel is None:
             print('No model file available. Must load a model file first')
             return
@@ -45,22 +46,22 @@ class Model(cm.CommonModel):
                     if _args.configuration: print(cm.CommonModel.Kmodel.get_config())
                     if _args.weights:       print(cm.CommonModel.Kmodel.get_weights())
 
-    def settingsload(self, _settings):
+    def settingsLoad(self, _settings):
         pass
 
-    def settingssave(self, _settings):
+    def settingsSave(self, _settings):
         pass
 
-    def settingsdefault(self):
+    def settingsDefault(self):
         pass
 
-    def settingsstate(self):
+    def settingsState(self):
         pass
 
     def execute(self, _line):
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _modelP = argparse.ArgumentParser(prog="model", 
-            description='information on the model',
+            description='Get information on the model',
             epilog='long options can be abbreviated if they are unambiguous in the commandline') 
         _modelP.add_argument('--summary', '-s', action='store_true', 
                 help='show the summary of the model')
@@ -78,7 +79,8 @@ class Model(cm.CommonModel):
         except:
             print("Unexpected error: {}".format(sys.exc_info()[0]))
             raise   
-        if len(vars(_args)) == 0:       pass                    # check for empty namespace 
-        else:                           self._modelInternal(_args)
+        #if len(vars(_args)) == 0:       pass                    # check for empty namespace 
+        if _args.summary or _args.configuration or _args.weights:   self._modelInternal(_args)
+        else:                                                       pass                           
         
 

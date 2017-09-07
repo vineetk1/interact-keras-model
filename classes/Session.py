@@ -82,6 +82,6 @@ class Session:
         except:
             print("Unexpected error: {}".format(sys.exc_info()[0]))
             raise   
-        if _args._default:   self._settingsDefault()
-        elif _args._state:   self._settingsState()
-        else:               self._settingsState()    
+        if _args._default:      self._settingsDefault()
+        elif _args._state:      self._settingsState()
+        else:                   self._settingsState()    
