@@ -4,7 +4,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 '''
 import logging
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)           # DEBUG INFO WARN ERROR CRITICAL
+logger.setLevel(logging.DEBUG)          # DEBUG INFO WARN ERROR CRITICAL
 console = logging.StreamHandler()
 console.setLevel(logging.DEBUG)         # DEBUG INFO WARN ERROR CRITICAL
 formatter = logging.Formatter('%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s')
@@ -18,12 +18,16 @@ import classes.Session
 import classes.CommonModel
 import classes.Model
 import classes.Layers
+import classes.NLP
+import classes.IO
 
 session = classes.Session.Session()
 commonModel = classes.CommonModel.CommonModel()
 model = classes.Model.Model()
 layers = classes.Layers.Layers()
-instanceList = [commonModel, model, layers]
+nlp = classes.NLP.NLP()
+io = classes.IO.IO()
+instanceList = [commonModel, model, layers, nlp, io]
 session.settingsLoad(instanceList)
 
 version = "0.7.0"                       # version = major-version.minor-version.patch-version
@@ -52,8 +56,19 @@ class InteractModel(cmd.Cmd):
     def help_layers(self):
         layers.execute('-h')
 
+    def do_nlp(self, line):
+        nlp.execute(line)
+    def help_nlp(self):
+        nlp.execute('-h')
+
+    def do_io(self, line):
+        io.execute(line)
+    def help_io(self):
+        io.execute('-h')
+
     def do_shell(self, s):
-        os.system(s)
+        if s:   os.system(s)
+        else:   print('usage: !\nUse \"!\" as escape character to run shell commands')
     def help_shell(self):
         print('usage: !\nUse \"!\" as escape character to run shell commands')
 
@@ -61,18 +76,18 @@ class InteractModel(cmd.Cmd):
         pass
 
     def do_EOF(self, line):
-        session.settingsSave()
-        return True
+        if line:    print('usage: EOF\nSave session settings and exit the program')
+        else:       session.settingsSave();  return True
     def help_EOF(self):
         print('usage: EOF\nSave session settings and exit the program')
     def do_quit(self, line):
-        session.settingsSave()
-        return True
+        if line:     print('usage: quit\nSave session settings and exit the program')
+        else:       session.settingsSave();  return True
     def help_quit(self):
         print('usage: quit\nSave session settings and exit the program')
     def do_exit(self, line):
-        session.settingsSave()
-        return True
+        if line:     print('usage: exit\nSave session settings and exit the program')
+        else:       session.settingsSave();  return True
     def help_exit(self):
         print('usage: exit\nSave session settings and exit the program')
 

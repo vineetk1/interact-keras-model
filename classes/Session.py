@@ -2,6 +2,9 @@
 Vineet Kumar, Copyright (C) 2017, GPL-3.0+ open-source license.
 This program comes with ABSOLUTELY NO WARRANTY.
 '''
+'''
+Commands specific to the session
+'''
 import logging
 logger = logging.getLogger()
 try:
@@ -74,14 +77,13 @@ class Session:
                 help='clear the session with the default values')
         _sessionPGr.add_argument('--state', '-s', dest='_state',  action='store_true', 
                 help='show the state/status of the session')
+
         try:
-            _args = _sessionP.parse_args(shlex.split(_line))
+            _args = _sessionP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
-        except SystemExit:
-            return
-        except:
-            print("Unexpected error: {}".format(sys.exc_info()[0]))
-            raise   
-        if _args._default:      self._settingsDefault()
-        elif _args._state:      self._settingsState()
-        else:                   self._settingsState()    
+        except SystemExit:  return                              
+        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
+
+        if _args._default:  self._settingsDefault()
+        elif _args._state:  self._settingsState()
+        else:               pass    

@@ -2,11 +2,15 @@
 Vineet Kumar, Copyright (C) 2017, GPL-3.0+ open-source license.
 This program comes with ABSOLUTELY NO WARRANTY.
 '''
+'''
+Commands to obtain static information about the layers of the model
+'''
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
 import pathlib
 import keras.models
+#import keras.layers
 import sys
 import argparse
 import shlex
@@ -15,9 +19,6 @@ import contextlib
 class Layers(cm.CommonModel):
     def __init__(self):
         pass
-
-    def _listNamesAndNumbers(self):
-        logger.debug('got here')
 
     def _layersInfo(self, _args):
         if cm.CommonModel.Kmodel is None:
@@ -32,15 +33,8 @@ class Layers(cm.CommonModel):
                     if _args.configuration: print(layer.get_config())
                     if _args.weights:       print(layer.get_weights())
         else:
-            try:
-                logger.debug('_args.outFile = {}'.format(_args.outFile))
-                _absOutFile = super().absPath(_args.outFile)
-                logger.debug('_absOutFile = {}'.format(_absOutFile))
-            except:
-                return
-            if not _absOutFile.is_file():
-                print('No file at {}'.format(_absOutFile))
-                return
+            try:    _absOutFile = super().absPathFile(_args.outFile)
+            except: return
             with _absOutFile.open('w') as _outfile:
                 with contextlib.redirect_stdout(_outfile):
                     for layerNum, layer in enumerate(cm.CommonModel.Kmodel.layers): 
@@ -82,13 +76,12 @@ class Layers(cm.CommonModel):
                 help='show the weights of the layers')
         _layerP.add_argument('--outFile', '-f', action='store', metavar='fileName',
                 help='path of the file where the output will be written')
+
         try:
-            _args = _layerP.parse_args(shlex.split(_line))
+            _args = _layerP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
-        except SystemExit: # normal exit
-            return
-        except:
-            print("Unexpected error: {}".format(sys.exc_info()[0]))
-            raise   
+        except SystemExit:  return                              
+        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
+
         if _args.input or _args.output or _args.configuration or _args.weights: self._layersInfo(_args)
         else:                                                                   pass                           

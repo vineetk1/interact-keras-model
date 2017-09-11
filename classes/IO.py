@@ -3,7 +3,7 @@ Vineet Kumar, Copyright (C) 2017, GPL-3.0+ open-source license.
 This program comes with ABSOLUTELY NO WARRANTY.
 '''
 '''
-Given an input, the user can look at the outputs of the various layers in the model
+Commands to obtain the outputs of the various layers in the model, for a given input
 '''
 import logging
 logger = logging.getLogger()
