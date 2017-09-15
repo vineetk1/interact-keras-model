@@ -7,52 +7,40 @@ Commands to obtain static information about the model
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
-import pathlib
-import keras.models
 import sys
 import argparse
 import shlex
-import contextlib 
-#try:
-    #import h5py
-#except ImportError:
-    #logger.info('h5py cannot be imported')    
-    #h5py = None
 
 class Model(cm.CommonModel):
     def __init__(self):
         pass
 
     def _modelInternal(self, _args):
-        if cm.CommonModel.Kmodel is None:
-            print('No model file available. Must load a model file first')
-            return
-        if _args.outFile is None:
-            if _args.summary:       cm.CommonModel.Kmodel.summary()
-            if _args.configuration: print(cm.CommonModel.Kmodel.get_config())
-            if _args.weights:       print(cm.CommonModel.Kmodel.get_weights())
-        else:
-            try:    _absOutFile = super().absPathFile(_args.outFile)
-            except: return
-            with _absOutFile.open('w') as _outfile:
-                with contextlib.redirect_stdout(_outfile):
-                    if _args.summary:       cm.CommonModel.Kmodel.summary()
-                    if _args.configuration: print(cm.CommonModel.Kmodel.get_config())
-                    if _args.weights:       print(cm.CommonModel.Kmodel.get_weights())
+        # print to stdout or a file the static information of the model
+        _list = []
+        if _args.summary:       _list.append(True); _list.append(cm.CommonModel.Kmodel.summary)
+        if _args.configuration: _list.append(True); _list.append(cm.CommonModel.Kmodel.get_config)
+        if _args.weights:       _list.append(True); _list.append(cm.CommonModel.Kmodel.get_weights)
+        super()._printStdoutOrFile(_args.outFile, _list)
 
     def settingsLoad(self, _settings):
+        # upon start of this interactive program, load previously saved settings in _settings
         pass
 
     def settingsSave(self, _settings):
+        # save the settings in _settings before exiting this interactive program
         pass
 
     def settingsDefault(self):
+        # reset settings to their default state
         pass
 
     def settingsState(self):
+        # print the settings at the stdout
         pass
 
     def execute(self, _line):
+        # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _modelP = argparse.ArgumentParser(prog="model", 
             description='Get information on the model',

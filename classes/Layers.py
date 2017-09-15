@@ -8,56 +8,49 @@ Commands to obtain static information about the layers of the model
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
-import pathlib
-import keras.models
-#import keras.layers
 import sys
 import argparse
 import shlex
-import contextlib 
 
 class Layers(cm.CommonModel):
     def __init__(self):
         pass
 
     def _layersInfo(self, _args):
-        if cm.CommonModel.Kmodel is None:
-            print('No model file available. Must load a model file first')
-            return
-        if _args.outFile is None:
-            for layerNum, layer in enumerate(cm.CommonModel.Kmodel.layers): 
-                if (_args.layerNumbers is None) or (layerNum in _args.layerNumbers):
-                    print('\nlayer {}: {}'.format(layerNum, layer.get_config()['name']))
-                    if _args.input:         print(layer.input); print(layer.input_shape)
-                    if _args.output:        print(layer.output); print(layer.output_shape)
-                    if _args.configuration: print(layer.get_config())
-                    if _args.weights:       print(layer.get_weights())
-        else:
-            try:    _absOutFile = super().absPathFile(_args.outFile)
-            except: return
-            with _absOutFile.open('w') as _outfile:
-                with contextlib.redirect_stdout(_outfile):
-                    for layerNum, layer in enumerate(cm.CommonModel.Kmodel.layers): 
-                        if (_args.layerNumbers is None) or (layerNum in _args.layerNumbers):
-                            print('\nlayer {}: {}'.format(layerNum, layer.get_config()['name']))
-                            if _args.input:         print(layer.input); print(layer.input_shape)
-                            if _args.output:        print(layer.output); print(layer.output_shape)
-                            if _args.configuration: print(layer.get_config())
-                            if _args.weights:       print(layer.get_weights())
+        # print to stdout or a file the static information about the layers of the model
+        _list = []
+        for layerNum, layer in enumerate(cm.CommonModel.Kmodel.layers): 
+            if (_args.layerNumbers is None) or (layerNum in _args.layerNumbers):
+                _list.append(False); 
+                _list.append('\nlayer {}: {}'.format(layerNum, layer.get_config()['name']))
+                if _args.input:         
+                    _list.append(False); _list.append(layer.input) 
+                    _list.append(False); _list.append(layer.input_shape)
+                if _args.output:        
+                    _list.append(False); _list.append(layer.output) 
+                    _list.append(False); _list.append(layer.output_shape)      
+                if _args.configuration: _list.append(True); _list.append(layer.get_config)
+                if _args.weights:       _list.append(True); _list.append(layer.get_weights)
+                super()._printStdoutOrFile(_args.outFile, _list)
 
     def settingsLoad(self, _settings):
+        # upon start of this interactive program, load previously saved settings in _settings
         pass
 
     def settingsSave(self, _settings):
+        # save the settings in _settings before exiting this interactive program
         pass
 
     def settingsDefault(self):
+        # reset settings to their default state
         pass
 
     def settingsState(self):
+        # print the settings at the stdout
         pass
 
     def execute(self, _line):
+        # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _layerP = argparse.ArgumentParser(prog="layers", 
             description='Get information on the layers',

@@ -13,28 +13,33 @@ import keras.models
 import sys
 import argparse
 import shlex
-import contextlib 
 
 class NLP(cm.CommonModel):
     def __init__(self):
         pass
 
     def _wordPatternsInWeights(self, _args):
+        # find word-patterns in weights of the model
         logger.debug('got here')
 
     def settingsLoad(self, _settings):
+        # upon start of this interactive program, load previously saved settings in _settings
         pass
 
     def settingsSave(self, _settings):
+        # save the settings in _settings before exiting this interactive program
         pass
 
     def settingsDefault(self):
+        # reset settings to their default state
         pass
 
     def settingsState(self):
+        # print the settings at the stdout
         pass
 
     def execute(self, _line):
+        # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _nlpP = argparse.ArgumentParser(prog="nlp", 
             description='Commands specific to Natural Language Processing',

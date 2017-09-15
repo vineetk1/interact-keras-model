@@ -12,6 +12,7 @@ import keras.models
 import sys
 import argparse
 import shlex
+import contextlib 
 #try:
     #import h5py
 #except ImportError:
@@ -24,7 +25,8 @@ class CommonModel:
     def __init__(self):
         pass
 
-    def absPathFile(self, _filePath):
+    def absPathFile(self, _filePath):   # this method also used by subclasses
+        # convenience method to reate an absolute path for the file _filepath
         if _filePath is None:
             logger.debug('_filePath is None')
             raise 
@@ -42,7 +44,28 @@ class CommonModel:
             raise
         return _absPathFile
 
+    def _printStdoutOrFile(self, _outFile, _list):   # this method also used by subclasses
+        # convenience method to print the contents of _list to the stdout or a file
+        # _list has pairs -- _callable and _statement; if _statement is _callable then print(_statement()),
+        # else print(_statement); print goes to stdout unless redirected to a file pointed to by _outFile
+        if CommonModel.Kmodel is None:
+            print('No model file available. Must load a model file first')
+            return
+        if _outFile is None:
+            for _callable, _statement in zip(_list[::2], _list[1::2]):
+                if _callable:   print(_statement())
+                else:           print(_statement)
+        else:
+            try: _absOutFile = self.absPathFile(_outFile)   
+            except: return
+            with _absOutFile.open('w') as _outf:
+                with contextlib.redirect_stdout(_outf):
+                    for _callable, _statement in zip(_list[::2], _list[1::2]):
+                        if _callable:   print(_statement())
+                        else:           print(_statement)
+
     def _cmodelLoad(self, _inFile):
+        # create a keras model from the file _inFile
         try: self._pathToModelFile = self.absPathFile(_inFile)
         except: 
             self._pathToModelFile = None
@@ -66,6 +89,7 @@ class CommonModel:
             raise   
 
     def settingsLoad(self, _settings):
+        # upon start of this interactive program, load previously saved settings in _settings
         try: self._pathToModelFile = _settings['pathToModelFile']
         except:
             logger.warn('self._pathToModelFile not in settings = {}; settings file possibly corrupted'.format(
@@ -75,16 +99,20 @@ class CommonModel:
         self._cmodelLoad(self._pathToModelFile)        # load Keras model
 
     def settingsSave(self, _settings):
+        # save the settings in _settings before exiting this interactive program
         _settings['pathToModelFile'] = self._pathToModelFile
 
     def settingsDefault(self):
+        # reset settings to their default state
         self._pathToModelFile = None
         CommonModel.Kmodel = None
 
     def settingsState(self):
+        # print the settings at the stdout
         print('model file: {}'.format(self._pathToModelFile if self._pathToModelFile else None))
 
     def execute(self, _line):
+        # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _commonModelP = argparse.ArgumentParser(prog="load", 
             description='Load the model',

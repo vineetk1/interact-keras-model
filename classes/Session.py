@@ -32,6 +32,8 @@ class Session:
             readline.read_history_file('{}'.format(self._readlineFile))
 
     def settingsLoad(self, instanceList):
+        # upon start of this interactive program, load settings that were saved in a file upon
+        # last exit of this interactive program
         self._instanceList = instanceList
         if self._sessionFile.stat().st_size:
             with self._sessionFile.open('rb') as rf:
@@ -47,6 +49,7 @@ class Session:
             self._settingsDefault()
 
     def settingsSave(self):
+        # save the settings in a file before exiting this interactive program
         self._settings = {}
         for instance in self._instanceList:
             instance.settingsSave(self._settings)
@@ -60,14 +63,17 @@ class Session:
         print('Session settings saved')
 
     def _settingsDefault(self): 
+        # reset settings to their default state
         for instance in self._instanceList:
             instance.settingsDefault()
 
     def _settingsState(self): 
+        # print the settings at the stdout
         for instance in self._instanceList:
             instance.settingsState()
 
     def execute(self, _line):
+        # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _sessionP = argparse.ArgumentParser(prog="session", 
             description='Information and operations on the session',
