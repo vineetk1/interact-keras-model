@@ -44,7 +44,7 @@ class CommonModel:
             raise
         return _absPathFile
 
-    def _printStdoutOrFile(self, _outFile, _list):   # this method also used by subclasses
+    def printStdoutOrFile(self, _outFile, _list):   # this method also used by subclasses
         # convenience method to print the contents of _list to the stdout or a file
         # _list has pairs -- _callable and _statement; if _statement is _callable then print(_statement()),
         # else print(_statement); print goes to stdout unless redirected to a file pointed to by _outFile
@@ -89,11 +89,11 @@ class CommonModel:
             raise   
 
     def settingsLoad(self, _settings):
-        # upon start of this interactive program, load previously saved settings in _settings
+        # upon start of this interactive program, load previously saved settings from _settings
         try: self._pathToModelFile = _settings['pathToModelFile']
         except:
             logger.warn('self._pathToModelFile not in settings = {}; settings file possibly corrupted'.format(
-                settigs))
+                _settings))
             raise
         # Following statement is not in a try-except block because exceptions are handled by the called method
         self._cmodelLoad(self._pathToModelFile)        # load Keras model

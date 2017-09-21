@@ -21,10 +21,10 @@ class Model(cm.CommonModel):
         if _args.summary:       _list.append(True); _list.append(cm.CommonModel.Kmodel.summary)
         if _args.configuration: _list.append(True); _list.append(cm.CommonModel.Kmodel.get_config)
         if _args.weights:       _list.append(True); _list.append(cm.CommonModel.Kmodel.get_weights)
-        super()._printStdoutOrFile(_args.outFile, _list)
+        super().printStdoutOrFile(_args.outFile, _list)
 
     def settingsLoad(self, _settings):
-        # upon start of this interactive program, load previously saved settings in _settings
+        # upon start of this interactive program, load previously saved settings from _settings
         pass
 
     def settingsSave(self, _settings):

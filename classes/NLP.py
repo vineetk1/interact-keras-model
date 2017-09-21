@@ -23,7 +23,7 @@ class NLP(cm.CommonModel):
         logger.debug('got here')
 
     def settingsLoad(self, _settings):
-        # upon start of this interactive program, load previously saved settings in _settings
+        # upon start of this interactive program, load previously saved settings from _settings
         pass
 
     def settingsSave(self, _settings):

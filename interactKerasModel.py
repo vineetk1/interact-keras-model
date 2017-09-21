@@ -4,9 +4,9 @@ This program comes with ABSOLUTELY NO WARRANTY.
 '''
 import logging
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)          # DEBUG INFO WARN ERROR CRITICAL
+logger.setLevel(logging.DEBUG)          # DEBUG INFO WARN ERROR/EXCEPTION CRITICAL
 console = logging.StreamHandler()
-console.setLevel(logging.DEBUG)         # DEBUG INFO WARN ERROR CRITICAL
+console.setLevel(logging.DEBUG)         # DEBUG INFO WARN ERROR/EXCEPTION CRITICAL
 formatter = logging.Formatter('%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s')
 console.setFormatter(formatter)
 logger.addHandler(console)
