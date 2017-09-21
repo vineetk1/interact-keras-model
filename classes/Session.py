@@ -41,10 +41,11 @@ class Session:
                 logger.debug('self._settings = {}'.format(self._settings))
             try:    
                 for instance in self._instanceList:
+                    logger.debug('calling {}.settingsLoad(self._settings)'.format(type(instance).__name__))
                     instance.settingsLoad(self._settings)
             except:
                 print('Saved settings file is corrupted. Loading default settings instead')
-                self. _settingsDefault()
+                self._settingsDefault()
         else:
             self._settingsDefault()
 
