@@ -15,7 +15,6 @@ except ImportError:
 import pathlib
 import argparse
 import shlex
-import sys
 import pickle 
 
 class Session:
@@ -38,13 +37,14 @@ class Session:
         if self._sessionFile.stat().st_size:
             with self._sessionFile.open('rb') as rf:
                 self._settings = pickle.load(rf)
-                logger.debug('self._settings = {}'.format(self._settings))
             try:    
                 for instance in self._instanceList:
-                    logger.debug('calling {}.settingsLoad(self._settings)'.format(type(instance).__name__))
                     instance.settingsLoad(self._settings)
-            except:
+            except KeyError as err:
                 print('Saved settings file is corrupted. Loading default settings instead')
+                logger.debug('{}: {} not in settings\nsettings = {}'.format(
+                type(err).__name__, err, self._settings))
+                logger.exception('Traceback follows')
                 self._settingsDefault()
         else:
             self._settingsDefault()
@@ -54,7 +54,6 @@ class Session:
         self._settings = {}
         for instance in self._instanceList:
             instance.settingsSave(self._settings)
-        logger.debug('self._settings = {}'.format(self._settings))
         with self._sessionFile.open('wb') as wf:
             pickle.dump(self._settings, wf)
 
@@ -89,7 +88,6 @@ class Session:
             _args = _sessionP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
         if _args._default:  self._settingsDefault()
         elif _args._state:  self._settingsState()

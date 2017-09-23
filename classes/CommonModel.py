@@ -9,15 +9,10 @@ import logging
 logger = logging.getLogger()
 import pathlib
 import keras.models
-import sys
 import argparse
 import shlex
 import contextlib 
-#try:
-    #import h5py
-#except ImportError:
-    #logger.info('h5py cannot be imported')    
-    #h5py = None
+import sys
 
 class CommonModel:
     Kmodel = None
@@ -26,26 +21,22 @@ class CommonModel:
         pass
 
     def absPathFile(self, _filePath):   # this method also used by subclasses
-        # convenience method to reate an absolute path for the file _filepath
+        # convenience method to create an absolute path for the file _filepath
         if _filePath is None:
             logger.debug('_filePath is None')
-            raise 
+            raise FileNotFoundError    
         try:
-            logger.debug('_filePath = {}'.format(_filePath))
             # Note: if _filePath="" then expanduser() expands it to current directory
             _absPathFile = pathlib.Path(_filePath).expanduser().resolve()
-            logger.debug('_absPathFile = {}'.format(_absPathFile))
         except FileNotFoundError as err:   # Path does not exist    
-            print('FileNotFoundError: {}'.format(err))
-            raise
-        except: print("Unexpected error: {}".format(sys.exc_info()[0])); raise
+            print('Invalid path {}\n{}: {}'.format(_filePath, type(err).__name__, err)); raise
         if not _absPathFile.is_file():
             print('No file at {}'.format(_absPathFile))
-            raise
+            raise FileNotFoundError
         return _absPathFile
 
     def printStdoutOrFile(self, _outFile, _list):   # this method also used by subclasses
-        # convenience method to print the contents of _list to the stdout or a file
+        # convenience method to print the contents of _list to the stdout or a file;
         # _list has pairs -- _callable and _statement; if _statement is _callable then print(_statement()),
         # else print(_statement); print goes to stdout unless redirected to a file pointed to by _outFile
         if CommonModel.Kmodel is None:
@@ -57,7 +48,7 @@ class CommonModel:
                 else:           print(_statement)
         else:
             try: _absOutFile = self.absPathFile(_outFile)   
-            except: return
+            except FileNotFoundError: return
             with _absOutFile.open('w') as _outf:
                 with contextlib.redirect_stdout(_outf):
                     for _callable, _statement in zip(_list[::2], _list[1::2]):
@@ -67,36 +58,23 @@ class CommonModel:
     def _cmodelLoad(self, _inFile):
         # create a keras model from the file _inFile
         try: self._pathToModelFile = self.absPathFile(_inFile)
-        except: 
-            self._pathToModelFile = None
-            CommonModel.Kmodel = None
-            return
+        except FileNotFoundError: raise
         try: CommonModel.Kmodel = keras.models.load_model(self._pathToModelFile)
         except ImportError as err:
-            print('Import error: {}'.format(err))
-            self._pathToModelFile = None
-            CommonModel.Kmodel = None
-            return
+            print('Please install h5py before running this program. This program cannot create the keras model because h5py is not available on the user\'s computer system.\n{}; {}'.format(type(err).__name__, err))
+            sys.exit()      # ******* EXIT/CRASH THIS PROGRAM *******
         except (ValueError, OSError) as err:
-            print('Invalid {}\n{}'.format(self._pathToModelFile, err))
-            self._pathToModelFile = None
-            CommonModel.Kmodel = None
-            return
-        except:    
-            self._pathToModelFile = None
-            CommonModel.Kmodel = None
-            print("Unexpected error: {}".format(sys.exc_info()[0]))
-            raise   
+            print('Invalid {}\n{}: {}'.format(self._pathToModelFile, type(err).__name__, err)); raise
 
     def settingsLoad(self, _settings):
         # upon start of this interactive program, load previously saved settings from _settings
         try: self._pathToModelFile = _settings['pathToModelFile']
-        except:
-            logger.warn('self._pathToModelFile not in settings = {}; settings file possibly corrupted'.format(
-                _settings))
-            raise
-        # Following statement is not in a try-except block because exceptions are handled by the called method
-        self._cmodelLoad(self._pathToModelFile)        # load Keras model
+        except KeyError: raise
+        try: self._cmodelLoad(self._pathToModelFile)        # load Keras model
+        except (FileNotFoundError, ValueError, OSError):
+            self._pathToModelFile = None
+            CommonModel.Kmodel = None
+            return
 
     def settingsSave(self, _settings):
         # save the settings in _settings before exiting this interactive program
@@ -124,7 +102,11 @@ class CommonModel:
             _args = _commonModelP.parse_args(shlex.split(_line))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
-        if _args.inFile:    self._cmodelLoad(_args.inFile)
-        else:               pass
+        if _args.inFile:    
+            try: self._cmodelLoad(_args.inFile)
+            except (FileNotFoundError, ValueError, OSError):
+                self._pathToModelFile = None
+                CommonModel.Kmodel = None
+                return
+        else: pass

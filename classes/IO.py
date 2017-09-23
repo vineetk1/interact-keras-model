@@ -37,15 +37,13 @@ class IO(cm.CommonModel):
         # convenience method to deserializes a numpy file _file
         try: _deserializedFile = numpy.load(_file)
         except (ValueError, OSError) as err:
-            print('Invalid {}\n{}'.format(_file, err))
-            raise
-        except: print("Unexpected error: {}".format(sys.exc_info()[0])); raise
+            print('Invalid {}\n{}: {}'.format(_file, type(err).__name__, err)); raise
         return _deserializedFile
 
     def _setup(self, _args):
         # setup the parameters to enable the model to run
         self._inputLayerNumber = _args.inputLayerNumber
-        assert(self._inputLayerNumber is None)
+        #assert(self._inputLayerNumber is None)
         self._outputLayerNumbers = _args.outputLayerNumbers
         if self._outputLayerNumbers is None:
             _lastLayerNum = self._lastLayerNum()
@@ -53,13 +51,13 @@ class IO(cm.CommonModel):
         try: 
             self._inFile = super().absPathFile(_args.inFile)
             self._inputData = self._numpyLoadFile(self._inFile)
-        except: self._inFile = None; self._inputData = None
+        except (FileNotFoundError, ValueError, OSError): self._inFile = None; self._inputData = None
         try: 
             self._exptdOutFile = super().absPathFile(_args.exptdOutFile)
             self._exptdOutput = self._numpyLoadFile(self._exptdOutFile)
-        except: self._exptdOutFile = None; self._exptdOutput = None
+        except (FileNotFoundError, ValueError, OSError): self._exptdOutFile = None; self._exptdOutput = None
         try: self._outFile = super().absPathFile(_args.outFile)
-        except: self._outFile = None
+        except FileNotFoundError: self._outFile = None
 
     def _run(self, _args):
         # run the model to produce outputs for a given input
@@ -109,10 +107,7 @@ class IO(cm.CommonModel):
             _inFile = _settings['ioInFile']
             _exptdOutFile = _settings['ioExptdOutFile']
             _outFile = _settings['ioOutFile']
-        except:
-            logger.warn('one or more items not in settings = {}; settings file possibly corrupted'.format(
-                _settings))
-            raise
+        except KeyError: raise
         _args = argparse.Namespace(inputLayerNumber=locals()["_inputLayerNumber"], 
                 outputLayerNumbers=locals()["_outputLayerNumbers"], inFile=locals()["_inFile"], 
                 exptdOutFile=locals()["_exptdOutFile"], outFile=locals()["_outFile"])
@@ -179,7 +174,6 @@ class IO(cm.CommonModel):
             _args = _ioP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
         if len(vars(_args)) == 0:   pass                        # check for empty namespace 
         else:                       _args.func(_args)
