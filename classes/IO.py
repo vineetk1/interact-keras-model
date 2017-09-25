@@ -79,28 +79,33 @@ class IO(cm.CommonModel):
             self._outputLayerNumbers = [_lastLayerNum]
             print("No ouput layer specified. Using default last layer {}".format(self._outputLayerNumbers))
 
-        shouldReturn = False
+        _shouldReturn = False
         if self._inputData.shape[1] != cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input_shape[1]:
                 print('Shape {} of data in input-file MUST be equal to shape {} of input in layer {}'.format(
                 self._inputData.shape,  cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input_shape, 
                 self._inputLayerNumber))
-                shouldReturn = True
+                _shouldReturn = True
         if (self._exptdOutput is not None):
             print('The feature of comparing the model output with the expected-output is not implemented yet')
         #if (self._exptdOutput is not None) and (len(self._outputLayerNumbers) != 1):
         #   print('The expected-output-file MUST be associated with only one output-layer {}'.format(
         #      self._outputLayerNumbers))
-        #    shouldReturn = True
-        if shouldReturn and (not _args.force): return
+        #    _shouldReturn = True
+        if _shouldReturn and (not _args.force): return
 
-        for layerNum, layer in enumerate(cm.CommonModel.Kmodel.layers): 
-            if layerNum in self._outputLayerNumbers:
-                referenceToClass_tensorflowBackendFunction = keras.backend.function(
-                        [cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input], [layer.output])
-                layerOutput = referenceToClass_tensorflowBackendFunction([self._inputData[0:1]])[0]
-                print('\nlayer {}: name = {}, type = {}, shape = {}, dtype = {}\n{}'.format(
-                        layerNum, layer.get_config()['name'], type(layerOutput), layerOutput.shape, 
-                        layerOutput.dtype, layerOutput))
+        _list = []
+        for _layerNum, _layer in enumerate(cm.CommonModel.Kmodel.layers): 
+            if _layerNum in self._outputLayerNumbers:
+                _referenceToClass_tensorflowBackendFunction = keras.backend.function(
+                        [cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input], [_layer.output])
+                try: _layerOutput = _referenceToClass_tensorflowBackendFunction([self._inputData[0:1]])[0]
+                except ValueError as err:
+                    logger.exception('Traceback follows')
+                    break
+                _list.append(False); 
+                _list.append('\nlayer {}: name = {}, shape = {}, dtype = {}\n{}'.format(_layerNum, 
+                    _layer.get_config()['name'], _layerOutput.shape, _layerOutput.dtype, _layerOutput))
+        super().printStdoutOrFile(self._outFile, _list)
 
 
     def settingsLoad(self, _settings):
