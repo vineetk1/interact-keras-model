@@ -8,9 +8,7 @@ Commands specific to Natural Language Processing
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
-import pathlib
 import keras.models
-import sys
 import argparse
 import shlex
 
@@ -49,14 +47,14 @@ class NLP(cm.CommonModel):
         _nlpPsWp = _nlpPs.add_parser('wordPatternsInWeights', aliases=['wp'],
                 help='find word-patterns in weights')
         _nlpPsWp.add_argument('--layerNumbers', '-l', type=int, nargs='+',
-                help='numbers of the layers whose information is requested; e.g. \"-n 3 8 9\"  means layers 3, 8, and 9; default includes all the layers')
+                help='''numbers of the layers whose information is requested; e.g. \"-n 3 8 9\"
+                        means layers 3, 8, and 9; default includes all the layers''')
         _nlpPsWp.set_defaults(func=self._wordPatternsInWeights)
 
         try:
             _args = _nlpP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
         if len(vars(_args)) == 0:   pass                        # check for empty namespace 
         else:                       _args.func(_args)

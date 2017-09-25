@@ -8,7 +8,6 @@ Commands to obtain static information about the layers of the model
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
-import sys
 import argparse
 import shlex
 
@@ -58,7 +57,8 @@ class Layers(cm.CommonModel):
 
         _layerP.add_argument('--numbers', '-n', metavar='layerNumbers', 
                 dest='layerNumbers', type=int, nargs='+',
-                help='numbers of the layers whose information is requested; e.g. \"-n 3 8 9\"  means layers 3, 8, and 9; default includes all the layers')
+                help='''numbers of the layers whose information is requested; e.g. \"-n 3 8 9\"
+                        means layers 3, 8, and 9; default includes all the layers''')
         _layerP.add_argument('--input', '-i', action='store_true', 
                 help='show the input tensors and shapes of the layers')
         _layerP.add_argument('--output', '-o', action='store_true', 
@@ -74,7 +74,6 @@ class Layers(cm.CommonModel):
             _args = _layerP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
         if _args.input or _args.output or _args.configuration or _args.weights: self._layersInfo(_args)
         else:                                                                   pass                           

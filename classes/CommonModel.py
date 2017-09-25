@@ -29,7 +29,9 @@ class CommonModel:
             # Note: if _filePath="" then expanduser() expands it to current directory
             _absPathFile = pathlib.Path(_filePath).expanduser().resolve()
         except FileNotFoundError as err:   # Path does not exist    
-            print('Invalid path {}\n{}: {}'.format(_filePath, type(err).__name__, err)); raise
+            logger.debug('{}: {}'.format(type(err).__name__, err))
+            print('No such file or directory at {}'.format(_filePath))
+            raise
         if not _absPathFile.is_file():
             print('No file at {}'.format(_absPathFile))
             raise FileNotFoundError
@@ -61,10 +63,14 @@ class CommonModel:
         except FileNotFoundError: raise
         try: CommonModel.Kmodel = keras.models.load_model(self._pathToModelFile)
         except ImportError as err:
-            print('Please install h5py before running this program. This program cannot create the keras model because h5py is not available on the user\'s computer system.\n{}; {}'.format(type(err).__name__, err))
+            print('Please install h5py before running this program. This program cannot create', end="")
+            print(' a keras model because h5py is not available on the user\'s computer', end="")
+            print(' system.\n{}; {}'.format(type(err).__name__, err))
             sys.exit()      # ******* EXIT/CRASH THIS PROGRAM *******
         except (ValueError, OSError) as err:
-            print('Invalid {}\n{}: {}'.format(self._pathToModelFile, type(err).__name__, err)); raise
+            logger.debug('{}: {}'.format(type(err).__name__, err))
+            print('Invalid {}; {}'.format(self._pathToModelFile, err))
+            raise
 
     def settingsLoad(self, _settings):
         # upon start of this interactive program, load previously saved settings from _settings

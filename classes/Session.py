@@ -42,7 +42,7 @@ class Session:
                     instance.settingsLoad(self._settings)
             except KeyError as err:
                 print('Saved settings file is corrupted. Loading default settings instead')
-                logger.debug('{}: {} not in settings\nsettings = {}'.format(
+                logger.warn('{}: {} not in settings\nsettings = {}'.format(
                 type(err).__name__, err, self._settings))
                 logger.exception('Traceback follows')
                 self._settingsDefault()

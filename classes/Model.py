@@ -7,7 +7,6 @@ Commands to obtain static information about the model
 import logging
 logger = logging.getLogger()
 import classes.CommonModel as cm
-import sys
 import argparse
 import shlex
 
@@ -58,7 +57,6 @@ class Model(cm.CommonModel):
             _args = _modelP.parse_args(shlex.split(_line if _line else '-h'))
             logger.debug('{}'.format(_args))
         except SystemExit:  return                              
-        except:             print("Unexpected error: {}".format(sys.exc_info()[0])); raise
 
         if _args.summary or _args.configuration or _args.weights:   self._modelInternal(_args)
         else:                                                       pass                           
