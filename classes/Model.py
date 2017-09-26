@@ -50,7 +50,7 @@ class Model(cm.CommonModel):
                 help='show the configuration of the model')
         _modelP.add_argument('--weights', '-w', action='store_true', 
                 help='show the weights of the model')
-        _modelP.add_argument('--outFile', '-f', action='store', metavar='fileName',
+        _modelP.add_argument('--outFile', '-of', action='store', metavar='fileName',
                 help='path of the file where the output will be written')
 
         try:
