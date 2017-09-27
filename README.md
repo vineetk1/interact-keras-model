@@ -8,8 +8,10 @@ This software is an interactive command-line program. It interacts with user-gen
 * [Restrictions](#restrictions)
 * [Installation](#installation)
 * [Usage](#usage)
-	* [Getting started](#getting-started)
+	* [Start the program](#start-the-program)
 	* [Help](#help)
+	* [Session](#session)
+	* [Load](#load)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -35,7 +37,7 @@ ls
 CommonModel.py  IO.py  Layers.py  Model.py  Session.py
 ```
 ## Usage
-### Getting started
+### Start the program
 Run the interactive program from any directory. Note the message on "help". Enter commands following the prompt ">>" sign. 
 ```
 python3 ~/interact-keras-model/interactKerasModel.py
@@ -74,6 +76,35 @@ Help can also be obtained using "-h". Multiple dots in the last line show that t
 usage: session [-h] [--default | --state]
 .....
 ```
+### Session
+A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state can be displayed through the "session -s" command.
+```
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 3
+io output layer numbers: [5]
+io input file: /home/vin/interact-keras-model/x_val_file.npy
+io expected output file: /home/vin/interact-keras-model/y_val_file.npy
+io output file: None
+```
+The state of the session is saved forever, unless it is changed or reset to its default values through the "session -d" command.
+```
+>>session -d
+>>session -s
+model file: None
+io input layer number: 0
+io output layer numbers: None
+io input file: None
+io expected output file: None
+io output file: None
+>>
+```
+The details of the session command can be displayed using "session -h" 
+### Load
+
+
+
+
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
