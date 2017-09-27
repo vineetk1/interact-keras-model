@@ -4,16 +4,16 @@ This software is an interactive command-line program. It interacts with user-gen
 1. Interact with the model using this interactive command-line program
 ## Table of contents
 <!-- vim-markdown-toc GFM -->
-* [Requirements](#requirements)
-* [Restrictions](#restrictions)
-* [Installation](#installation)
-* [Usage](#usage)
-	* [Start the program](#start-the-program)
-	* [Help](#help)
-	* [Session](#session)
-	* [Load](#load)
-* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
-* [License](#license)
+	* [Requirements](#requirements)
+	* [Restrictions](#restrictions)
+	* [Installation](#installation)
+	* [Usage](#usage)
+		* [Start the program](#start-the-program)
+		* [Help](#help)
+		* [Shell](#shell)
+* [Layer (type)                 Output Shape              Param #](#layer-type-----------------output-shape--------------param-)
+	* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
+	* [License](#license)
 
 <!-- vim-markdown-toc -->
 ## Requirements
@@ -76,6 +76,11 @@ Help can also be obtained using "-h". Multiple dots in the last line show that t
 usage: session [-h] [--default | --state]
 .....
 ```
+### Shell
+Use "!" as escape character to run shell commands from within this program.
+```
+>>!pwd
+/home/vin/
 ### Session
 A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state can be displayed through the "session -s" command.
 ```
@@ -99,12 +104,30 @@ io expected output file: None
 io output file: None
 >>
 ```
-The details of the session command can be displayed using "session -h" 
+For help on the session command, use "session -h" 
 ### Load
-
-
-
-
+Use the "load" command to load a keras model.
+'''
+>>load /home/vin/deepLearningProject/deepLearningModel.h5
+'''
+### Model
+Use the "model" command to display the summary, configuration, and weights of the model.
+```
+>>!touch myFile
+>>model -s -c -w -of myFile
+>>!more myFile
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_1 (InputLayer)         (None, 1000)              0         
+_________________________________________________________________
+embedding_1 (Embedding)      (None, 1000, 100)         2000100   
+_________________________________________________________________
+conv1d_1 (Conv1D)            (None, 996, 128)          64128     
+_________________________________________________________________
+.....
+.....
+```
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
