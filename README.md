@@ -68,12 +68,11 @@ optional arguments:
 Long options can be abbreviated if they are unambiguous in the commandline
 >>
 ```
-Help can also be obtained using "-h". Multiple dots in the last line show that the whole output is not shown.
+Help can also be obtained using "-h". Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>session -h
 usage: session [-h] [--default | --state]
 .....
-
 ```
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
