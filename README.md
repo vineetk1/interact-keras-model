@@ -36,20 +36,23 @@ CommonModel.py  IO.py  Layers.py  Model.py  Session.py
 ```
 ## Usage
 ### Getting started
-Run the interactive program from any directory. Enter commands following the prompt ">>" sign.
+Run the interactive program from any directory. Enter commands following the prompt ">>" sign. Note the message on "help".
 ```
 python3 ~/interact-keras-model/interactKerasModel.py
 Using TensorFlow backend.
 interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.
 Type "help" or "?" to list commands
->>help
-Documented commands (type help <topic>):
-========================================
-EOF  exit  help  model  quit  session  shell
 >>
 ```
 ### Help
-More to come...........
+Type the "help" command. A number of commands are listed.
+```
+>>help
+Documented commands (type help <topic>):
+========================================
+EOF  exit  help  io  layers  load  model  quit  session  shell
+>>
+```
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
