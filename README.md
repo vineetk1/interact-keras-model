@@ -4,18 +4,18 @@ This software is an interactive command-line program. It interacts with user-gen
 1. Interact with the model using this interactive command-line program
 ## Table of contents
 <!-- vim-markdown-toc GFM -->
-	* [Requirements](#requirements)
-	* [Restrictions](#restrictions)
-	* [Installation](#installation)
-	* [Usage](#usage)
-		* [Start the program](#start-the-program)
-		* [Help](#help)
-		* [Shell](#shell)
-		* [Session](#session)
-		* [Load](#load)
-* [Layer (type)                 Output Shape              Param #](#layer-type-----------------output-shape--------------param-)
-	* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
-	* [License](#license)
+* [Requirements](#requirements)
+* [Restrictions](#restrictions)
+* [Installation](#installation)
+* [Usage](#usage)
+	* [Start the program](#start-the-program)
+	* [Help](#help)
+	* [Shell](#shell)
+	* [Session](#session)
+	* [Load](#load)
+	* [Model](#model)
+* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
+* [License](#license)
 
 <!-- vim-markdown-toc -->
 ## Requirements
@@ -110,7 +110,7 @@ io output file: None
 For help on the session command, use "session -h" 
 ### Load
 Use the "load" command to load a keras model.
-'''
+```
 >>load /home/vin/deepLearningProject/deepLearningModel.h5
 ```
 ### Model
