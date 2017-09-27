@@ -25,12 +25,19 @@ Clone this repository
 ```
 git clone https://github.com/vineetk1/interact-keras-model.git
 ```
+The directory structure is as follow. The "interactKerasmodel.py" has the main program.
+'''
+cd interact-keras-model
+ls
+classes  interactKerasModel.py  LICENSE.txt  README.md
+cd classes
+ls
+CommonModel.py  IO.py  Layers.py  Model.py  Session.py
+'''
 ## Usage
 ### Getting started
-Run the interactive program. Enter commands following the prompt ">>" sign.
+Run the interactive program from any directory. Enter commands following the prompt ">>" sign.
 ```
-#Provide the path to the interact-keras-model directory and run interactKerasModel.py
-
 python3 ~/interact-keras-model/interactKerasModel.py
 Using TensorFlow backend.
 interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.
