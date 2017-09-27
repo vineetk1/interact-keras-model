@@ -54,11 +54,6 @@ class InteractModel(cmd.Cmd):
     def help_layers(self):
         layers.execute('-h')
 
-    def do_nlp(self, line):
-        nlp.execute(line)
-    def help_nlp(self):
-        nlp.execute('-h')
-
     def do_io(self, line):
         io.execute(line)
     def help_io(self):
