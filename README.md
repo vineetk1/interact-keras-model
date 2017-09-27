@@ -25,7 +25,7 @@ Clone this repository
 ```
 git clone https://github.com/vineetk1/interact-keras-model.git
 ```
-The directory structure is as follow. The "interactKerasmodel.py" has the main program.
+The directory structure is as follows. The "interactKerasmodel.py" file has the main program.
 ```
 cd interact-keras-model
 ls
@@ -36,7 +36,7 @@ CommonModel.py  IO.py  Layers.py  Model.py  Session.py
 ```
 ## Usage
 ### Getting started
-Run the interactive program from any directory. Enter commands following the prompt ">>" sign. Note the message on "help".
+Run the interactive program from any directory. Note the message on "help". Enter commands following the prompt ">>" sign. 
 ```
 python3 ~/interact-keras-model/interactKerasModel.py
 Using TensorFlow backend.
@@ -45,13 +45,35 @@ Type "help" or "?" to list commands
 >>
 ```
 ### Help
-Type the "help" command. A number of commands are listed.
+Type "help". A number of commands are listed.
 ```
 >>help
 Documented commands (type help <topic>):
 ========================================
 EOF  exit  help  io  layers  load  model  quit  session  shell
 >>
+```
+Get help on a command. Help on the "session" command shows its usage, its description, and description of its arguments. 
+```
+>>help session
+usage: session [-h] [--default | --state]
+
+Information and operations on the session
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --default, -d  clear the session with the default values
+  --state, -s    show the state/status of the session
+
+Long options can be abbreviated if they are unambiguous in the commandline
+>>
+```
+Help can also be obtained using "-h". Multiple dots in the last line show that the whole output is not shown.
+```
+>>session -h
+usage: session [-h] [--default | --state]
+.....
+
 ```
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
