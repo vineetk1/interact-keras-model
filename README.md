@@ -4,16 +4,18 @@ This software is an interactive command-line program. It interacts with user-gen
 1. Interact with the model using this interactive command-line program
 ## Table of contents
 <!-- vim-markdown-toc GFM -->
-	* [Requirements](#requirements)
-	* [Restrictions](#restrictions)
-	* [Installation](#installation)
-	* [Usage](#usage)
-		* [Start the program](#start-the-program)
-		* [Help](#help)
-		* [Shell](#shell)
-* [Layer (type)                 Output Shape              Param #](#layer-type-----------------output-shape--------------param-)
-	* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
-	* [License](#license)
+* [Requirements](#requirements)
+* [Restrictions](#restrictions)
+* [Installation](#installation)
+* [Usage](#usage)
+	* [Start the program](#start-the-program)
+	* [Help](#help)
+	* [Shell](#shell)
+	* [Session](#session)
+	* [Load](#load)
+	* [Model](#model)
+* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
+* [License](#license)
 
 <!-- vim-markdown-toc -->
 ## Requirements
@@ -81,6 +83,7 @@ Use "!" as escape character to run shell commands from within this program.
 ```
 >>!pwd
 /home/vin/
+```
 ### Session
 A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state can be displayed through the "session -s" command.
 ```
