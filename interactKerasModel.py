@@ -18,16 +18,14 @@ import classes.Session
 import classes.CommonModel
 import classes.Model
 import classes.Layers
-import classes.NLP
 import classes.IO
 
 session = classes.Session.Session()
 commonModel = classes.CommonModel.CommonModel()
 model = classes.Model.Model()
 layers = classes.Layers.Layers()
-nlp = classes.NLP.NLP()
 io = classes.IO.IO()
-instanceList = [commonModel, model, layers, nlp, io]
+instanceList = [commonModel, model, layers, io]
 session.settingsLoad(instanceList)
 
 version = "0.7.0"                       # version = major-version.minor-version.patch-version
