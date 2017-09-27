@@ -114,7 +114,7 @@ Use the "load" command to load a keras model.
 >>load /home/vin/deepLearningProject/deepLearningModel.h5
 ```
 ### Model
-Use the "model" command to display the summary, configuration, and weights of the model.
+Use the "model" command to display the summary, configuration, and weights of the model. Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>!touch myFile
 >>model -s -c -w -of myFile
@@ -128,7 +128,6 @@ embedding_1 (Embedding)      (None, 1000, 100)         2000100
 _________________________________________________________________
 conv1d_1 (Conv1D)            (None, 996, 128)          64128     
 _________________________________________________________________
-.....
 .....
 ```
 ## Contribute to improve the software and add new features
