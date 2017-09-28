@@ -89,7 +89,7 @@ Use "!" as escape character to run shell commands from within this program.
 >>
 ```
 ### Session
-A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state of the program can be displayed through the "session -s" command.
+A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved. Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The "io input file", which provides the input data, is also specified. The input data will be applied to the "io input layer number" of 3. The output will be retrieved from the "io output layer numbers" of 5. The "io output file" is not loaded yet, so the output will be sent to the default standard-output (stdout). The "io expected output file" is not implemented yet, so it will not be described here.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -152,11 +152,11 @@ Tensor("conv1d_1_3/Relu:0", shape=(?, 996, 128), dtype=float32)
 
 layer 2: name = conv1d_1, Configuration
 {'activation': 'relu', 'name': 'conv1d_1', 'bias_constraint': None, 'kernel_regularizer': None, 'activity_regularizer': None, 'bias_initializer':
->>
 .....
+>>
 ```
 ### IO (Input/Output)
-Use the 'io" command to display the outputs from one or more layers when a given input is applied to a layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listlayerrs", "setup", and run
+The 'io" command displays the outputs from the specified layers when a specified input data is applied to a layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listLayers", "setup", and "run"
 ```
 >>io -h
 usage: io [-h] {listLayers,ll,setup,se,run} ...
@@ -173,8 +173,9 @@ optional arguments:
   -h, --help            show this help message and exit
 
 long options can be abbreviated if they are unambiguous in the commandline
+>>
 ```
-The "listlayers" sub-command displays the names and numbers of all the layers in the model.
+The "listLayers" sub-command displays the names and numbers of all the layers in the model.
 ```
 >>io ll
 layer 0: input_1          layer 1: embedding_1      layer 2: conv1d_1         layer 3: max_pooling1d_1  layer 4: conv1d_2         layer 5: max_pooling1d_2  layer 6: conv1d_3         layer 7: max_pooling1d_3  layer 8: flatten_1        layer 9: dense_1          layer 10: dense_2          
@@ -217,6 +218,17 @@ optional arguments:
   --outFile fileName, -of fileName
                         path of an output file; the output will be written to
                         this file
+>>
+```
+Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the "io input layer number" of 0. The output will be retrieved from the last layer of the model, which in this case is the "io output layer numbers" of 10. The "io output file" is not loaded yet, so the output will be sent to the standard-output (stdout).   
+```
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 0
+io output layer numbers: [10]
+io input file: None
+io expected output file: None
+io output file: None
 >>
 ```
 
