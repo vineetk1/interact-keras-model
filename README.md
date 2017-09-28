@@ -16,7 +16,6 @@ This software is an interactive command-line program. It interacts with user-gen
 	* [Model](#model)
 	* [Layers](#layers)
 	* [IO (Input/Output)](#io-inputoutput)
-	* [Quit, Exit, EOF](#quit-exit-eof)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -60,7 +59,7 @@ Documented commands (type help <topic>):
 EOF  exit  help  io  layers  load  model  quit  session  shell
 >>
 ```
-Get help on a command. Help on the "session" command shows its usage, its description, and description of its arguments. 
+Get help on any command. Help on the "session" command shows its usage, its description, and description of its arguments. 
 ```
 >>help session
 usage: session [-h] [--default | --state]
@@ -82,14 +81,14 @@ usage: session [-h] [--default | --state]
 .....
 ```
 ### Shell
-Use "!" as escape character to run shell commands from within this program.
+Use "!" as an escape character to run shell commands from within this program.
 ```
 >>!pwd
 /home/vin/
 >>
 ```
 ### Session
-A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved. Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The "io input file", which provides the input data, is also specified. The input data will be applied to the "io input layer number" of 3. The output will be retrieved from the "io output layer numbers" of 5. The "io output file" is not loaded yet, so the output will be sent to the default standard-output (stdout). The "io expected output file" is not implemented yet, so it will not be described here.
+A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved. Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The input file, "io input file", which provides the input data, is also specified. The input data will be applied to the input layer number, "io input layer number", of 3. The output will be retrieved from the output layer number, "io output layer numbers", of 5. The output file, "io output file", is not loaded yet, so the output will be sent to the default standard-output (stdout). The "io expected output file" feature is not implemented yet, so it will not be described here.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -114,13 +113,20 @@ io output file: None
 ```
 For help on the session command, use "session -h" 
 ### Load
-Use the "load" command to load a keras model.
+Use the "load" command to load a keras model. Use "session -s" to display the session state.
 ```
 >>load ~/deepLearningProject/deepLearningModel.h5
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 0
+io output layer numbers: None
+io input file: None
+io expected output file: None
+io output file: None
 >>
 ```
 ### Model
-Use the "model" command to display information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+The "model" command displays information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>!touch myFile
 >>model -s -c -w -of myFile
@@ -138,7 +144,7 @@ _________________________________________________________________
 >>
 ```
 ### Layers
-The "layers" command displays information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+The "layers" command displays information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ``` 
 >>layers -l 2 10 -i -o -c -w
 
@@ -156,7 +162,7 @@ layer 2: name = conv1d_1, Configuration
 >>
 ```
 ### IO (Input/Output)
-The 'io" command displays the outputs from the specified layers when a specified input data is applied to a layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listLayers", "setup", and "run"
+The 'io" command displays the outputs of the specified layers when a specified input data is applied to an input of a specified layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listLayers", "setup", and "run"
 ```
 >>io -h
 usage: io [-h] {listLayers,ll,setup,se,run} ...
@@ -181,7 +187,7 @@ The "listLayers" sub-command displays the names and numbers of all the layers in
 layer 0: input_1          layer 1: embedding_1      layer 2: conv1d_1         layer 3: max_pooling1d_1  layer 4: conv1d_2         layer 5: max_pooling1d_2  layer 6: conv1d_3         layer 7: max_pooling1d_3  layer 8: flatten_1        layer 9: dense_1          layer 10: dense_2          
 >>
 ```
-The "setup" sub-command sets up the model with arguments needed to run the model. Use "io setup -h" to examine the details of the sub-command.
+The "setup" sub-command sets up the model with arguments needed to later run the model. Use "io setup -h" to examine the details of this sub-command.
 ```
 >>io se -h
 usage: io setup [-h] [--inputLayerNumber INPUTLAYERNUMBER]
@@ -220,16 +226,59 @@ optional arguments:
                         this file
 >>
 ```
-Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the "io input layer number" of 0. The output will be retrieved from the last layer of the model, which in this case is the "io output layer numbers" of 10. The "io output file" is not loaded yet, so the output will be sent to the standard-output (stdout).   
+Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default, and can be changed using the "setup" sub-command. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the default "io input layer number" of 0. The "io output layer numbers" are not specified, so the default last layer number  will be picked when the model is run using the "run" sub-command. The "io output file" is not loaded yet, so the output will be sent to the standard-output (stdout). The "io expected output file" feature is not implemented yet.
+```
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 0
+io output layer numbers: None
+io input file: None
+io expected output file: None
+io output file: None
+>>```
+Specify the file that has the input data.
+```
+>>io setup ~/deepLearningProject/x_val.npy
+>>
+```
+Use "session -s" to examine the state of this session. Note that "io output layer numbers" was not previously specified, so the "setup" sub-command automatically picked the default last layer number of the model. 
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
 io input layer number: 0
 io output layer numbers: [10]
-io input file: None
+io input file: /home/vin/deepLearningProject/x_val.npy
 io expected output file: None
 io output file: None
 >>
+```
+Run the model to display the output of the last layer.
+```
+>>io run
+
+layer 10: name = dense_2, shape = (1, 20), dtype = float32
+[[  5.68623955e-06   3.49436968e-09   1.95092084e-13   9.26773899e-15
+    1.39546920e-19   9.91860389e-08   4.45735493e-09   4.73717833e-17
+    5.53824075e-16   2.03216000e-10   1.73403305e-06   2.11836313e-13
+    6.45400725e-13   1.95926675e-09   5.40723542e-12   6.44912291e-07
+    5.71678629e-06   1.65301297e-11   9.14643442e-06   9.99976873e-01]]
+>>
+```
+Change the settings to apply the input data to layer 2 and display the outputs from layers 6 and 8.
+```
+>>io setup ~/deepLearningProject/x_val.npy -il 2 -ol 6 8
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 2
+io output layer numbers: [6, 8]
+io input file: /home/vin/deepLearningProject/x_val.npy
+io expected output file: None
+io output file: None
+>>
+```
+Run the model.
+```
+
 ```
 
 
