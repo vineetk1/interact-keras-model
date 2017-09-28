@@ -14,6 +14,7 @@ This software is an interactive command-line program. It interacts with user-gen
 	* [Session](#session)
 	* [Load](#load)
 	* [Model](#model)
+	* [Layers](#layers)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -85,7 +86,7 @@ Use "!" as escape character to run shell commands from within this program.
 /home/vin/
 ```
 ### Session
-A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state can be displayed through the "session -s" command.
+A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state of the program can be displayed through the "session -s" command.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -111,10 +112,10 @@ For help on the session command, use "session -h"
 ### Load
 Use the "load" command to load a keras model.
 ```
->>load /home/vin/deepLearningProject/deepLearningModel.h5
+load ~/deepLearningProject/deepLearningModel.h5
 ```
 ### Model
-Use the "model" command to display the summary, configuration, and weights of the model. Multiple dots in the last line show that the whole output is not shown in this example.
+Use the "model" command to display information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>!touch myFile
 >>model -s -c -w -of myFile
@@ -130,6 +131,26 @@ conv1d_1 (Conv1D)            (None, 996, 128)          64128
 _________________________________________________________________
 .....
 ```
+### Layers
+Use the "layers" command to display information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+``` 
+>>layers -l 2 10 -i -o -c -w
+
+layer 2: name = conv1d_1, Input Tensor and Shape
+Tensor("embedding_1_3/Gather:0", shape=(?, 1000, 100), dtype=float32)
+(None, 1000, 100)
+
+layer 2: name = conv1d_1, Output Tensor and Shape
+Tensor("conv1d_1_3/Relu:0", shape=(?, 996, 128), dtype=float32)
+(None, 996, 128)
+
+layer 2: name = conv1d_1, Configuration
+{'activation': 'relu', 'name': 'conv1d_1', 'bias_constraint': None, 'kernel_regularizer': None, 'activity_regularizer': None, 'bias_initializer':
+.....
+```
+
+
+
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
