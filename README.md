@@ -16,6 +16,7 @@ This software is an interactive command-line program. It interacts with user-gen
 	* [Model](#model)
 	* [Layers](#layers)
 	* [IO (Input/Output)](#io-inputoutput)
+	* [Quit, Exit, EOF](#quit-exit-eof)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -235,7 +236,8 @@ io output layer numbers: None
 io input file: None
 io expected output file: None
 io output file: None
->>```
+>>
+```
 Specify the file that has the input data.
 ```
 >>io setup ~/deepLearningProject/x_val.npy
