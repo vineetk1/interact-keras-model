@@ -15,6 +15,8 @@ This software is an interactive command-line program. It interacts with user-gen
 	* [Load](#load)
 	* [Model](#model)
 	* [Layers](#layers)
+	* [IO (Input/Output)](#io-inputoutput)
+	* [Quit, Exit, EOF](#quit-exit-eof)
 * [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
 * [License](#license)
 
@@ -84,6 +86,7 @@ Use "!" as escape character to run shell commands from within this program.
 ```
 >>!pwd
 /home/vin/
+>>
 ```
 ### Session
 A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved, and this state of the program can be displayed through the "session -s" command.
@@ -95,6 +98,7 @@ io output layer numbers: [5]
 io input file: /home/vin/interact-keras-model/x_val_file.npy
 io expected output file: /home/vin/interact-keras-model/y_val_file.npy
 io output file: None
+>>
 ```
 The state of the session is saved forever, unless it is changed or reset to its default values through the "session -d" command.
 ```
@@ -112,7 +116,8 @@ For help on the session command, use "session -h"
 ### Load
 Use the "load" command to load a keras model.
 ```
-load ~/deepLearningProject/deepLearningModel.h5
+>>load ~/deepLearningProject/deepLearningModel.h5
+>>
 ```
 ### Model
 Use the "model" command to display information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
@@ -130,9 +135,10 @@ _________________________________________________________________
 conv1d_1 (Conv1D)            (None, 996, 128)          64128     
 _________________________________________________________________
 .....
+>>
 ```
 ### Layers
-Use the "layers" command to display information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+The "layers" command displays information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output, unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ``` 
 >>layers -l 2 10 -i -o -c -w
 
@@ -146,11 +152,81 @@ Tensor("conv1d_1_3/Relu:0", shape=(?, 996, 128), dtype=float32)
 
 layer 2: name = conv1d_1, Configuration
 {'activation': 'relu', 'name': 'conv1d_1', 'bias_constraint': None, 'kernel_regularizer': None, 'activity_regularizer': None, 'bias_initializer':
+>>
 .....
+```
+### IO (Input/Output)
+Use the 'io" command to display the outputs from one or more layers when a given input is applied to a layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listlayerrs", "setup", and run
+```
+>>io -h
+usage: io [-h] {listLayers,ll,setup,se,run} ...
+
+Commands specific to Input and Output of the model
+
+positional arguments:
+  {listLayers,ll,setup,se,run}
+    listLayers (ll)     list the numbers and names of all the layers
+    setup (se)          setup the model before running it
+    run                 run the model
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+long options can be abbreviated if they are unambiguous in the commandline
+```
+The "listlayers" sub-command displays the names and numbers of all the layers in the model.
+```
+>>io ll
+layer 0: input_1          layer 1: embedding_1      layer 2: conv1d_1         layer 3: max_pooling1d_1  layer 4: conv1d_2         layer 5: max_pooling1d_2  layer 6: conv1d_3         layer 7: max_pooling1d_3  layer 8: flatten_1        layer 9: dense_1          layer 10: dense_2          
+>>
+```
+The "setup" sub-command sets up the model with arguments needed to run the model. Use "io setup -h" to examine the details of the sub-command.
+```
+>>io se -h
+usage: io setup [-h] [--inputLayerNumber INPUTLAYERNUMBER]
+                [--outputLayerNumbers OUTPUTLAYERNUMBERS [OUTPUTLAYERNUMBERS ...]]
+                [--exptdOutFile fileName] [--outFile fileName]
+                inFile
+
+positional arguments:
+  inFile                path of a input file; the data will be read from this
+                        file and applied to the input of a layer specified by
+                        "inputLayerNumber"; the file suffix must be ".npy" and
+                        it must be a numpy array
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --inputLayerNumber INPUTLAYERNUMBER, -il INPUTLAYERNUMBER
+                        input data will be applied to this specified layer
+                        number; e.g. "-il 5" means that the input will be
+                        applied to layer 5; the default is the first layer,
+                        i.e. layer 0
+  --outputLayerNumbers OUTPUTLAYERNUMBERS [OUTPUTLAYERNUMBERS ...], -ol OUTPUTLAYERNUMBERS [OUTPUTLAYERNUMBERS ...]
+                        outputs will be retrieved from the specified layer
+                        numbers; e.g. "-ol 3 8 9" means that the outputs will
+                        be retrieved from layers 3, 8, and 9; the default is
+                        the last layer
+  --exptdOutFile fileName, -ef fileName
+                        path of a expected-output file; the data will be read
+                        from this file and compared to an output from a layer
+                        specified by "outputLayerNumbers"; the result of the
+                        comparison will be written to a file specified by
+                        "outFile" or to the default standard-output (stdout);
+                        the file suffix must be ".npy" and it must be a numpy
+                        array; ***Note: This feature is not implemented yet
+  --outFile fileName, -of fileName
+                        path of an output file; the output will be written to
+                        this file
+>>
 ```
 
 
-
+### Quit, Exit, EOF
+Use "quit" or "exit" or "eof" (i.e. cntrl-d) command to exit the session. Note that the session settings are automatically saved.
+```
+>>quit
+Session settings saved
+```
 ## Contribute to improve the software and add new features
 Open an Issue as follows:
 1. Go to the repository page on github. Click on the "Issues" button in the repo header.
