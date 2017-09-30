@@ -43,7 +43,7 @@ class Layers(cm.CommonModel):
                         _wtsList[0]))
                     if _wtsListLen > 1:
                         _list.append(False) 
-                        _list.append('\nlayer {}: name = {}, Bias: shape = {}, Bias dtype = {}\n{}'.format(
+                        _list.append('\nlayer {}: name = {}, Bias shape = {}, Bias dtype = {}\n{}'.format(
                         _layerNum, _layer.get_config()['name'], _wtsList[1].shape, _wtsList[1].dtype,
                         _wtsList[1]))
                     if _wtsListLen > 2: 
