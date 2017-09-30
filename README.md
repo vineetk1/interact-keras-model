@@ -1,5 +1,5 @@
 # Interact with Keras Model
-This software is an interactive command-line program. It interacts with user-generated deep learning keras based models. The user does the following:
+This software is an interactive command-line program. It interacts with user-generated deep-learning keras-based models. The user does the following:
 1. Build a deep-learning model using Keras 
 1. Interact with the model using this interactive command-line program
 ## Table of contents
@@ -30,22 +30,22 @@ Lower versions may work.
 ## Installation
 Clone this repository
 ```
-git clone https://github.com/vineetk1/interact-keras-model.git
+$> git clone https://github.com/vineetk1/interact-keras-model.git
 ```
 The directory structure is as follows. The "interactKerasmodel.py" file has the main program.
 ```
-cd interact-keras-model
-ls
+$> cd interact-keras-model
+$> ls
 classes  interactKerasModel.py  LICENSE.txt  README.md
-cd classes
-ls
+$> cd classes
+$> ls
 CommonModel.py  IO.py  Layers.py  Model.py  Session.py
 ```
 ## Usage
 ### Start the program
-Run the interactive program from any directory. Note the message on "help". Enter commands following the prompt ">>" sign. 
+Run this interactive program from any directory. Note the message on "help". Enter commands following the prompt ">>" sign. 
 ```
-python3 ~/interact-keras-model/interactKerasModel.py
+$> python3 ~/interact-keras-model/interactKerasModel.py
 Using TensorFlow backend.
 interactKerasModel version 0.7.0, Copyright (C) 2017, Interact with Keras based model. GPL-3.0+ open-source license.
 Type "help" or "?" to list commands
@@ -89,7 +89,7 @@ Use "!" as an escape character to run shell commands from within this program.
 >>
 ```
 ### Session
-A session begins when a user starts the program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved. Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The input file, "io input file", which provides the input data, is also specified. The input data will be applied to the input layer number, "io input layer number", of 3. The output will be retrieved from the output layer number, "io output layer numbers", of 5. The output file, "io output file", is not loaded yet, so the output will be sent to the default standard-output (stdout). The "io expected output file" feature is not implemented yet, so it will not be described here.
+A session begins when a user starts this program and ends when the user exits the program. During the session, the user loads a model and specifies other settings. These settings are saved. Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The input file, "io input file", which has the input data, is also specified. The input data will be applied to the input layer number, "io input layer number", of 3. The output will be retrieved from the output layer number, "io output layer numbers", of 5. The output file, "io output file", is not loaded yet, so the output will be sent to the default standard-output (stdout). The "io expected output file" feature is not implemented, so it will not be described here.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -127,7 +127,7 @@ io output file: None
 >>
 ```
 ### Model
-The "model" command displays information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+Use the "model" command to display information about the model. This information includes the summary, configuration, and weights of the model. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>!touch myFile
 >>model -s -c -w -of myFile
@@ -145,7 +145,7 @@ _________________________________________________________________
 >>
 ```
 ### Layers
-The "layers" command displays information about one or more layers in the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
+Use the "layers" command to display information about one or more layers of the model. This information includes the input tensor and shape, output tensor and shape, configuration, and weights. The output will be sent to the standard-output unless specified to be redirected to a file. Multiple dots in the last line show that the whole output is not shown in this example.
 ``` 
 >>layers -l 2 10 -i -o -c -w
 
@@ -163,12 +163,12 @@ layer 2: name = conv1d_1, Configuration
 >>
 ```
 ### IO (Input/Output)
-The 'io" command displays the outputs of the specified layers when a specified input data is applied to an input of a specified layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listLayers", "setup", and "run"
+Use the 'io" command to display the outputs of specified layers when a specified input data is applied to an input of a specified layer. Use "io -h" to examine the details of the command. The "io" command has three sub-commands, namely, "listLayers", "setup", and "run"
 ```
 >>io -h
 usage: io [-h] {listLayers,ll,setup,se,run} ...
 
-Commands specific to Input and Output of the model
+Commands specific to the Input and Output of the model
 
 positional arguments:
   {listLayers,ll,setup,se,run}
@@ -197,7 +197,7 @@ usage: io setup [-h] [--inputLayerNumber INPUTLAYERNUMBER]
                 inFile
 
 positional arguments:
-  inFile                path of a input file; the data will be read from this
+  inFile                path of an input file; the data will be read from this
                         file and applied to the input of a layer specified by
                         "inputLayerNumber"; the file suffix must be ".npy" and
                         it must be a numpy array
@@ -215,19 +215,19 @@ optional arguments:
                         be retrieved from layers 3, 8, and 9; the default is
                         the last layer
   --exptdOutFile fileName, -ef fileName
-                        path of a expected-output file; the data will be read
+                        path of an expected-output file; the data will be read
                         from this file and compared to an output from a layer
                         specified by "outputLayerNumbers"; the result of the
                         comparison will be written to a file specified by
                         "outFile" or to the default standard-output (stdout);
                         the file suffix must be ".npy" and it must be a numpy
-                        array; ***Note: This feature is not implemented yet
+                        array; ***Note: This feature is not implemented
   --outFile fileName, -of fileName
                         path of an output file; the output will be written to
                         this file
 >>
 ```
-Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default, and can be changed using the "setup" sub-command. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the default "io input layer number" of 0. The "io output layer numbers" are not specified, so the default last layer number  will be picked when the model is run using the "run" sub-command. The "io output file" is not specifed yet, so the output will be sent to the standard-output (stdout). The "io expected output file" feature is not implemented yet.
+Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default, and can be changed using the "setup" sub-command. The "io input file", which has the input data, is not loaded yet. The input data will be applied to the default "io input layer number" of 0. The "io output layer numbers" are not specified, so the default last layer number  will be picked when the model is run using the "run" sub-command. The "io output file" is not specifed yet, so the output will be sent to the standard-output (stdout). The "io expected output file" feature is not implemented.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -254,7 +254,7 @@ io expected output file: None
 io output file: None
 >>
 ```
-Run the model to display the output of the last layer.
+Run the model to display the output of the last layer. Multiple dots in the last line show that the whole output is not shown in this example.
 ```
 >>io run
 Processing may take a long time if the input data is large
@@ -273,7 +273,7 @@ layer 10: name = dense_2, shape = (5, 20), dtype = float32
 ......
 >>
 ```
-Change the settings to display the outputs from layers 6 and 8, and to redirect the outputs to the file "myFile".
+Change the settings to display the outputs of layers 6 and 8, and to redirect the outputs to the file "myFile".
 ```
 >>io setup ~/deepLearningProject/x_val.npy -ol 6 8 -of myFile
 >>session -s
@@ -285,7 +285,7 @@ io expected output file: None
 io output file: /home/vin/interact-keras-model/myFile
 >>
 ```
-Run the model and display the output from the file "myFile".
+Run the model, and display the output from the file "myFile". Multiple dots show that the whole output is not shown in this example.
 ```
 >>io run
 Processing may take a long time if the input data is large
@@ -330,7 +330,7 @@ Cannot feed value of shape (5, 1000) for Tensor 'embedding_1/Gather:0', which ha
 >>
 ```
 ### Quit, Exit, EOF
-Use "quit" or "exit" or "eof" (i.e. cntrl-d) command to exit the session. Note that the session settings are automatically saved.
+Use "quit" or "exit" or "eof" (i.e. cntrl-d) command to exit the session. Note the message that the session settings are automatically saved.
 ```
 >>quit
 Session settings saved
