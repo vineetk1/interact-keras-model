@@ -69,6 +69,7 @@ class IO(cm.CommonModel):
             return
         if self._inputData is None:
             print('No input file available. Must load an input file first. Cannot force run using \"run -f\"')
+            return
         assert(self._inputLayerNumber is not None)
         _lastLayerNum = self._lastLayerNum()
         if (self._inputLayerNumber < 0) or (self._inputLayerNumber > _lastLayerNum):
@@ -79,28 +80,20 @@ class IO(cm.CommonModel):
             self._outputLayerNumbers = [_lastLayerNum]
             print("No ouput layer specified. Using default last layer {}".format(self._outputLayerNumbers))
 
-        _shouldReturn = False
-        if self._inputData.shape[1] != cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input_shape[1]:
-                print('Shape {} of data in input-file MUST be equal to shape {} of input in layer {}'.format(
-                self._inputData.shape,  cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input_shape, 
-                self._inputLayerNumber))
-                _shouldReturn = True
         if (self._exptdOutput is not None):
             print('The feature of comparing the model output with the expected-output is not implemented yet')
-        #if (self._exptdOutput is not None) and (len(self._outputLayerNumbers) != 1):
-        #   print('The expected-output-file MUST be associated with only one output-layer {}'.format(
-        #      self._outputLayerNumbers))
-        #    _shouldReturn = True
-        if _shouldReturn and (not _args.force): return
 
+        print('Processing may take a long time if the input data is large')
         _list = []
         for _layerNum, _layer in enumerate(cm.CommonModel.Kmodel.layers): 
             if _layerNum in self._outputLayerNumbers:
                 _referenceToClass_tensorflowBackendFunction = keras.backend.function(
                         [cm.CommonModel.Kmodel.layers[self._inputLayerNumber].input], [_layer.output])
-                try: _layerOutput = _referenceToClass_tensorflowBackendFunction([self._inputData[0:1]])[0]
+                try: _layerOutput = _referenceToClass_tensorflowBackendFunction([self._inputData])[0]
                 except ValueError as err:
-                    logger.exception('Traceback follows')
+                    logger.debug('{}: {}'.format(type(err).__name__, err))
+                    print(err)
+                    #logger.exception('Traceback follows')
                     break
                 _list.append(False); 
                 _list.append('\nlayer {}: name = {}, shape = {}, dtype = {}\n{}'.format(_layerNum, 
@@ -187,8 +180,6 @@ class IO(cm.CommonModel):
         _ioPsSetup.set_defaults(func=self._setup)
 
         _ioPsRun = _ioPs.add_parser('run', help='run the model')
-        _ioPsRun.add_argument('--force', '-f', action='store_true', 
-                help='force the model to run even when errors are flagged')
         _ioPsRun.set_defaults(func=self._run)
 
         try:
