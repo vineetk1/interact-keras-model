@@ -227,7 +227,7 @@ optional arguments:
                         this file
 >>
 ```
-Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default, and can be changed using the "setup" sub-command. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the default "io input layer number" of 0. The "io output layer numbers" are not specified, so the default last layer number  will be picked when the model is run using the "run" sub-command. The "io output file" is not loaded yet, so the output will be sent to the standard-output (stdout). The "io expected output file" feature is not implemented yet.
+Use "session -s" to examine the state of this session. The "model file" was loaded previously using the "load" command. The rest of the settings are default, and can be changed using the "setup" sub-command. The "io input file", which provides the input data, is not loaded yet. The input data will be applied to the default "io input layer number" of 0. The "io output layer numbers" are not specified, so the default last layer number  will be picked when the model is run using the "run" sub-command. The "io output file" is not specifed yet, so the output will be sent to the standard-output (stdout). The "io expected output file" feature is not implemented yet.
 ```
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
@@ -257,33 +257,78 @@ io output file: None
 Run the model to display the output of the last layer.
 ```
 >>io run
+Processing may take a long time if the input data is large
 
-layer 10: name = dense_2, shape = (1, 20), dtype = float32
-[[  5.68623955e-06   3.49436968e-09   1.95092084e-13   9.26773899e-15
-    1.39546920e-19   9.91860389e-08   4.45735493e-09   4.73717833e-17
-    5.53824075e-16   2.03216000e-10   1.73403305e-06   2.11836313e-13
-    6.45400725e-13   1.95926675e-09   5.40723542e-12   6.44912291e-07
-    5.71678629e-06   1.65301297e-11   9.14643442e-06   9.99976873e-01]]
+layer 10: name = dense_2, shape = (5, 20), dtype = float32
+[[  5.68623955e-06   3.49436968e-09   1.95091705e-13   9.26777457e-15
+    1.39546920e-19   9.91854705e-08   4.45735493e-09   4.73716014e-17
+    5.53826193e-16   2.03216000e-10   1.73403305e-06   2.11836313e-13
+    6.45399478e-13   1.95926297e-09   5.40719379e-12   6.44911665e-07
+    5.71678629e-06   1.65300360e-11   9.14643442e-06   9.99976873e-01]
+ [  2.44325217e-22   4.42820536e-09   3.53693951e-19   1.68414225e-21
+    9.35219544e-30   1.63039835e-20   3.36454784e-18   6.69618226e-33
+    0.00000000e+00   7.42375461e-37   3.76892604e-30   9.38194314e-11
+    1.19705479e-09   3.22347496e-11   1.00000000e+00   1.22737328e-22
+    4.89322248e-18   2.14502930e-30   4.24237129e-14   2.37893777e-14]
+......
 >>
 ```
-Change the settings to apply the input data to layer 2 and display the outputs from layers 6 and 8.
+Change the settings to display the outputs from layers 6 and 8, and to redirect the outputs to the file "myFile".
 ```
->>io setup ~/deepLearningProject/x_val.npy -il 2 -ol 6 8
+>>io setup ~/deepLearningProject/x_val.npy -ol 6 8 -of myFile
+>>session -s
+model file: /home/vin/deepLearningProject/deepLearningModel.h5
+io input layer number: 0
+io output layer numbers: [6, 8]
+io input file: /home/vin/deepLearningProject/x_val.npy
+io expected output file: None
+io output file: /home/vin/interact-keras-model/myFile
+>>
+```
+Run the model and display the output from the file "myFile".
+```
+>>io run
+Processing may take a long time if the input data is large
+>>!cat myFile
+
+layer 6: name = conv1d_3, shape = (5, 35, 128), dtype = float32
+[[[ 0.          0.          0.07785349 ...,  0.          0.01855784  0.        ]
+  [ 0.          0.          0.07785349 ...,  0.          0.01855784  0.        ]
+  [ 0.          0.          0.07785349 ...,  0.          0.01855784  0.        ]
+  ..., 
+  [ 0.          0.          0.         ...,  0.          0.          0.        ]
+  [ 0.          0.          0.         ...,  0.          0.          0.        ]
+  [ 0.          0.          0.09836083 ...,  0.          0.09617352  0.        ]]
+.......
+
+layer 8: name = flatten_1, shape = (5, 128), dtype = float32
+[[  4.36287403e-01   2.89763585e-02   6.91425800e-01   1.03442574e+00
+    7.60179311e-02   0.00000000e+00   1.35375271e-02   4.51256752e-01
+    0.00000000e+00   8.64261091e-01   0.00000000e+00   1.81727670e-02
+    1.03881538e+00   0.00000000e+00   2.87368596e-01   0.00000000e+00
+    0.00000000e+00   0.00000000e+00   7.26040900e-01   0.00000000e+00
+......
+>>
+```
+Change the settings to apply the input data to layer 2.
+```
+>>io setup ~/deepLearningProject/x_val.npy -ol 6 8 -of myFile -il 2
 >>session -s
 model file: /home/vin/deepLearningProject/deepLearningModel.h5
 io input layer number: 2
 io output layer numbers: [6, 8]
 io input file: /home/vin/deepLearningProject/x_val.npy
 io expected output file: None
-io output file: None
+io output file: /home/vin/interact-keras-model/myFile
 >>
 ```
-Run the model.
+Run the model. Note that the error message specifies the reason why the  model cannot be run.
 ```
-
+>>io run
+Processing may take a long time if the input data is large
+Cannot feed value of shape (5, 1000) for Tensor 'embedding_1/Gather:0', which has shape '(?, 1000, 100)'
+>>
 ```
-
-
 ### Quit, Exit, EOF
 Use "quit" or "exit" or "eof" (i.e. cntrl-d) command to exit the session. Note that the session settings are automatically saved.
 ```
