@@ -322,7 +322,7 @@ io expected output file: None
 io output file: /home/vin/interact-keras-model/myFile
 >>
 ```
-Run the model. Note that the error message specifies the reason why the  model cannot be run.
+Run the model. Note that the error message specifies the reason why the  model cannot run.
 ```
 >>io run
 Processing may take a long time if the input data is large
