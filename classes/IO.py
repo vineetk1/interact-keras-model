@@ -146,7 +146,7 @@ class IO(cm.CommonModel):
         # execute user input
         logger.debug('_line = {}, shlex.split(_line) = {}'.format(_line, shlex.split(_line)))
         _ioP = argparse.ArgumentParser(prog="io", 
-            description='Commands specific to Input and Output of the model',
+            description='Commands specific to the Input and Output of the model',
             epilog='long options can be abbreviated if they are unambiguous in the commandline') 
         _ioPs = _ioP.add_subparsers()
 
@@ -157,7 +157,7 @@ class IO(cm.CommonModel):
         _ioPsSetup = _ioPs.add_parser('setup', aliases=['se'],
                 help='setup the model before running it')
         _ioPsSetup.add_argument('inFile', action='store', 
-                help='''path of a input file; the data will be read from this file and applied
+                help='''path of an input file; the data will be read from this file and applied
                         to the input of a layer specified by "inputLayerNumber";
                         the file suffix must be ".npy" and it  must be a numpy array''')
         _ioPsSetup.add_argument('--inputLayerNumber', '-il', type=int, action='store', default = 0,
@@ -165,16 +165,16 @@ class IO(cm.CommonModel):
                         means that the input will be applied to layer 5; the default is the 
                         first layer, i.e. layer 0''')
         _ioPsSetup.add_argument('--outputLayerNumbers', '-ol', type=int, nargs='+',
-                help='''outputs will be retrieved from the specified layer numbers; e.g. \"-ol 3 8 9\" 
+                help='''outputs will be retrieved from these specified layer numbers; e.g. \"-ol 3 8 9\" 
                         means that the outputs will be retrieved from layers 3, 8, and 9; the  
                         default is the last layer''')
         _ioPsSetup.add_argument('--exptdOutFile', '-ef', action='store', metavar='fileName',
-                help='''path of a expected-output file; the data will be read from this file
-                        and compared to an output from a layer specified by "outputLayerNumbers";
+                help='''path of an expected-output file; the data will be read from this file
+                        and compared to the output from a layer specified by "outputLayerNumbers";
                         the result of the comparison will be written to a file specified by 
                         "outFile" or to the default standard-output (stdout); the file
                         suffix must be ".npy" and it  must be a numpy array; ***Note: This feature
-                        is not implemented yet''')
+                        is not implemented''')
         _ioPsSetup.add_argument('--outFile', '-of', action='store', metavar='fileName',
                 help='path of an output file; the output will be written to this file')
         _ioPsSetup.set_defaults(func=self._setup)
