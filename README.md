@@ -3,24 +3,6 @@ This software is an interactive command-line program. It interacts with user-gen
 1. Build a deep-learning model using Keras 
 1. Interact with the model using this interactive command-line program
 ## Table of contents
-<!-- vim-markdown-toc GFM -->
-* [Requirements](#requirements)
-* [Restrictions](#restrictions)
-* [Installation](#installation)
-* [Usage](#usage)
-	* [Start the program](#start-the-program)
-	* [Help](#help)
-	* [Shell](#shell)
-	* [Session](#session)
-	* [Load](#load)
-	* [Model](#model)
-	* [Layers](#layers)
-	* [IO (Input/Output)](#io-inputoutput)
-	* [Quit, Exit, EOF](#quit-exit-eof)
-* [Contribute to improve the software and add new features](#contribute-to-improve-the-software-and-add-new-features)
-* [License](#license)
-
-<!-- vim-markdown-toc -->
 ## Requirements
 python >= 3.5, keras >= 2.0.2, numPy >= 1.12.1  
 Lower versions may work. 
